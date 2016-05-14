@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Solar Tetris!</title>
+    <link rel="stylesheet" href="assets/css/blockrain.css">
+    <style>
+        body {
+            text-align: center;
+        }
+        .panel-bar {
+            display: inline-block;
+            text-align:left;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .panel {
+            vertical-align: top;
+            display:inline-block;
+        }
+        .panel > div {
+            display: inline-block;
+        }
+
+        /* Score */
+        .score-panel {
+            width:200px;
+            height:640px;
+            background: #eee;
+            padding:10px;
+        }
+
+
+        /* Key */
+        .key-panel {
+            width:200px;
+            height:640px;
+            background: #eee;
+            padding:10px;
+        }
+        .key-panel ul {
+            text-align: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .key-panel img {
+            height: 70px;
+        }
+
+
+        /* Game */
+        .game {
+            vertical-align: top;
+            display:inline-block;
+            width:400px;
+            height:660px;
+        }
+        .game .blockrain-score-holder {display:none !important;}
+
+        .game .blockrain-start-msg {
+            position:absolute;
+            top:50%;
+            width:100%;
+            margin-top:-75px;
+        }
+        .game .blockrain-start-btn {
+            position:absolute;
+            left:50%;
+            bottom:auto;
+            top:50%;
+            cursor:pointer;
+            border:none;
+            background:#fff;
+            color:#000;
+            margin-left:-60px;
+            margin-top:-20px;
+            width:120px;
+            padding:13px 0;
+        }
+        .game .blockrain-start-btn:before {display:none}
+        .game .blockrain-start-btn:after {display:none}
+
+        .game .blockrain-game-over-msg {
+            color:#c2ffad;
+            position:absolute;
+            top:50%;
+            width:100%;
+            margin-top:-75px;
+        }
+        .game .blockrain-game-over-btn {
+            position:absolute;
+            left:50%%;
+            bottom:auto;
+            top:50%;
+            cursor:pointer;
+            border:none;
+            background:#fff;
+            color:#000;
+            font-weight:bold;
+            margin-left:-60px;
+            margin-top:-20px;
+            width:120px;
+            padding:13px 0;
+        }
+        .game .blockrain-game-over-btn:before {display:none}
+        .game .blockrain-game-over-btn:after {display:none}
+
+
+    </style>
+</head>
+<body>
+
+<ul class="panel-bar">
+    <li class="panel">
+
+        <div class="score-panel">
+            <div>
+                <h4>Installed:</h4>
+                <span id="score">0 Watts</span>
+            </div>
+        </div>
+
+    </li><li class="panel">
+
+        <div class="game" id="tetris"></div>
+
+    </li><li class="panel">
+
+        <div class="key-panel">
+            <h4>Know your solar components:</h4>
+            <ul>
+                <li>
+                    Solar Panel
+                    <br/>
+                    <img src="assets/blocks/custom/square.png"/>
+                </li>
+                <li>
+                    Wire
+                    <br/>
+                    <img src="assets/blocks/custom/line.png"/>
+                </li>
+                <li>
+                    Combiner Box
+                    <br/>
+                    <img src="assets/blocks/custom/arrow.png"/>
+                </li>
+                <li>
+                    Racking
+                    <br/>
+                    <img src="assets/blocks/custom/leftHook.png"/>
+                </li>
+                <li>
+                    Inverter
+                    <br/>
+                    <img src="assets/blocks/custom/leftZag.png"/>
+                </li>
+            </ul>
+        </div>
+
+    </li>
+</ul>
+
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/js/blockrain.jquery.libs.js"></script>
+<script src="assets/js/blockrain.jquery.src.js"></script>
+<script src="assets/js/blockrain.jquery.themes.js"></script>
+<script>
+    var wattsInstalled = 0;
+    var $demo = $('#tetris').blockrain({
+        speed: 20,
+        blockWidth: 10,
+        showFieldOnStart: false,
+        difficulty: 'nice',
+        theme: {
+            background: '#eee',
+            backgroundGrid: 'assets/blocks/custom/background.png',
+            complexBlocks: {
+                square:    'assets/blocks/custom/square.png',
+                line:      'assets/blocks/custom/line.png',
+                arrow:     'assets/blocks/custom/arrow.png',
+                leftHook:  'assets/blocks/custom/leftHook.png',
+                rightHook: 'assets/blocks/custom/rightHook.png',
+                leftZag:   'assets/blocks/custom/leftZag.png',
+                rightZag:  'assets/blocks/custom/rightZag.png',
+            }
+        },
+        onLine: function(lines, scoreIncrement, score){
+            // 100 pts == 100 W
+            wattsInstalled += score;
+            if(wattsInstalled > 1000000){
+                var MW = parseFloat(wattsInstalled/1000000.0).toFixed(4);
+                $("#score").text(MW + " Megawatts");
+            }
+            else if(wattsInstalled > 1000){
+                var KW = parseFloat(wattsInstalled/1000.0).toFixed(1);
+                $("#score").text(KW + " Kilowatts");
+            }
+            else{
+                $("#score").text(wattsInstalled + " Watts");
+            }
+        },
+    });
+</script>
+
+</body>
+</html>
