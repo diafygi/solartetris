@@ -118,7 +118,12 @@
         <div class="score-panel">
             <div>
                 <h4>Installed:</h4>
-                <span id="score">0 Watts</span>
+                <p id="score">0 Watts</p>
+                <div>
+                    <img id="score-pointer" src="assets/score/pointer.png">
+                    <img id=src="assets/score/panel.png">
+                    <img id=src="assets/score/panel.png">
+                </div>
             </div>
         </div>
 
@@ -161,18 +166,23 @@
 
     </li>
 </ul>
+<br/>
+<br/>
+<audio id="music" controls>
+    <source src="assets/music/HCTS_8bit.mp3" type="audio/mpeg">
+</audio> 
 
 <script src="assets/js/jquery-1.11.1.min.js"></script>
 <script src="assets/js/blockrain.jquery.libs.js"></script>
 <script src="assets/js/blockrain.jquery.src.js"></script>
 <script src="assets/js/blockrain.jquery.themes.js"></script>
 <script>
+    var music = document.getElementById("music");
     var wattsInstalled = 0;
     var $demo = $('#tetris').blockrain({
-        speed: 20,
+        speed: 10,
         blockWidth: 10,
         showFieldOnStart: false,
-        difficulty: 'nice',
         theme: {
             background: '#eee',
             backgroundGrid: 'assets/blocks/custom/background.png',
@@ -186,6 +196,21 @@
                 rightZag:  'assets/blocks/custom/rightZag.png',
             }
         },
+
+        // music
+        onStart: function(){
+            music.currentTime = 2.0;
+            music.play();
+        },
+        onRestart: function(){
+            music.currentTime = 2.0;
+            music.play();
+        },
+        onGameOver: function(score){
+            music.pause();
+        },
+
+        // scoring
         onLine: function(lines, scoreIncrement, score){
             // 100 pts == 100 W
             wattsInstalled += score;
