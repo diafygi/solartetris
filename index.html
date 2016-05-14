@@ -22,6 +22,10 @@
         .panel > div {
             display: inline-block;
         }
+        .footer {
+            margin-top: 12px;
+            font-size: 12px;
+        }
 
         /* Score */
         .score-panel {
@@ -56,7 +60,7 @@
 
         /* Key */
         .key-panel {
-            width:200px;
+            width:250px;
             height:640px;
             background: #eee;
             padding:10px;
@@ -193,7 +197,11 @@
 <br/>
 <audio id="music" controls>
     <source src="assets/music/HCTS_8bit.mp3" type="audio/mpeg">
-</audio> 
+</audio>
+<div class="footer">
+    This website is static, so it can be saved and loaded locally. Just right-click and "Save Page As.."!<br/>
+    Released under AGPLv3 license | <a href="https://github.com/diafygi/solartetris" target="_blank">Source code</a>
+</div>
 
 <script src="assets/js/jquery-1.11.1.min.js"></script>
 <script src="assets/js/blockrain.jquery.libs.js"></script>
