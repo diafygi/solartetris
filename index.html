@@ -25,10 +25,32 @@
 
         /* Score */
         .score-panel {
-            width:200px;
+            width:250px;
             height:640px;
             background: #eee;
             padding:10px;
+        }
+        .score-visual {
+            width:250px;
+            height:430px;
+        }
+        #score {
+            font-size:30px;
+        }
+        #score-pointer {
+            vertical-align: top;
+            margin-top: 401px;
+        }
+        #score-back {
+            vertical-align: top;
+            margin-top: 15px;
+            opacity: 0.3;
+        }
+        #score-front {
+            position: absolute;
+            margin-top: 15px;
+            margin-left: -200px;
+            clip: rect(400px, 200px, 400px, 0px);
         }
 
 
@@ -119,11 +141,12 @@
             <div>
                 <h4>Installed:</h4>
                 <p id="score">0 Watts</p>
-                <div>
+                <div class="score-visual">
                     <img id="score-pointer" src="assets/score/pointer.png">
-                    <img id=src="assets/score/panel.png">
-                    <img id=src="assets/score/panel.png">
+                    <img id="score-back" src="assets/score/panel.png">
+                    <img id="score-front" src="assets/score/panel.png">
                 </div>
+                <p id="systems"></p>
             </div>
         </div>
 
@@ -147,9 +170,9 @@
                     <img src="assets/blocks/custom/line.png"/>
                 </li>
                 <li>
-                    Combiner Box
+                    Inverter
                     <br/>
-                    <img src="assets/blocks/custom/arrow.png"/>
+                    <img src="assets/blocks/custom/leftZag.png"/>
                 </li>
                 <li>
                     Racking
@@ -157,9 +180,9 @@
                     <img src="assets/blocks/custom/leftHook.png"/>
                 </li>
                 <li>
-                    Inverter
+                    Combiner Box
                     <br/>
-                    <img src="assets/blocks/custom/leftZag.png"/>
+                    <img src="assets/blocks/custom/arrow.png"/>
                 </li>
             </ul>
         </div>
@@ -180,9 +203,10 @@
     var music = document.getElementById("music");
     var wattsInstalled = 0;
     var $demo = $('#tetris').blockrain({
-        speed: 10,
+        speed: 20,
         blockWidth: 10,
         showFieldOnStart: false,
+        difficulty: "normal",
         theme: {
             background: '#eee',
             backgroundGrid: 'assets/blocks/custom/background.png',
@@ -214,6 +238,8 @@
         onLine: function(lines, scoreIncrement, score){
             // 100 pts == 100 W
             wattsInstalled += score;
+
+            // score text
             if(wattsInstalled > 1000000){
                 var MW = parseFloat(wattsInstalled/1000000.0).toFixed(4);
                 $("#score").text(MW + " Megawatts");
@@ -224,6 +250,17 @@
             }
             else{
                 $("#score").text(wattsInstalled + " Watts");
+            }
+
+            // score visual
+            var HEIGHT = 400;
+            var TOP_WATTS = 5000;
+            var visualOffset = HEIGHT - (((wattsInstalled / TOP_WATTS) * HEIGHT) % HEIGHT);
+            $("#score-pointer").css("margin-top", visualOffset + 1);
+            $("#score-front").css("clip", "rect(" + visualOffset +"px, 200px, 400px, 0px)");
+            var numSystems = parseInt(Math.floor(wattsInstalled / TOP_WATTS));
+            if(numSystems > 0){
+                $("#systems").text("× " + numSystems + " Systems");
             }
         },
     });
