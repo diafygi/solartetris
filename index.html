@@ -133,6 +133,11 @@
         .game .blockrain-game-over-btn:before {display:none}
         .game .blockrain-game-over-btn:after {display:none}
 
+        .game-over span{
+            padding: 5px;
+            background: #fff;
+            color: #000;
+        }
 
     </style>
 </head>
@@ -203,6 +208,16 @@
     Released under AGPLv3 license | <a href="https://github.com/diafygi/solartetris" target="_blank">Source code</a>
 </div>
 
+<div id="templates" style="display:none;">
+    <div id="game-over-wrapper">
+        <div class="game-over">
+            <span>
+                Congrats! You installed <span class="finalScore"></span>.
+            </span>
+        </div>
+    </div>
+</div>
+
 <script src="assets/js/jquery-1.11.1.min.js"></script>
 <script src="assets/js/blockrain.jquery.libs.js"></script>
 <script src="assets/js/blockrain.jquery.src.js"></script>
@@ -228,6 +243,8 @@
                 rightZag:  'assets/blocks/custom/rightZag.png',
             }
         },
+        gameOverText: $("#game-over-wrapper").html(),
+        restartButtonText: 'Play Again',
 
         // music
         onStart: function(){
@@ -240,6 +257,7 @@
         },
         onGameOver: function(score){
             music.pause();
+            $(".finalScore").text($("#score").text());
         },
 
         // scoring
